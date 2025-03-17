@@ -104,8 +104,8 @@ class Calculator {
                 default:
                     throw fatalError()//If operator is invalid, throw error
                 }
-                //Put the result of the operation inside our numbers array
-                //Remove numbers and operator from arrays, to store only remaining numbers and operators to process
+                //Put the result of the operation inside numbers array
+                //Remove numbers and operator from two arrays, to store only remaining numbers and operators to process
                 numbers[currIndex] = newNum
                 numbers.remove(at: currIndex+1)
                 operators.remove(at: currIndex)
