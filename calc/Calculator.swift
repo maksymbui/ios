@@ -53,7 +53,7 @@ class Calculator {
         // Todo: Calculate Result from the arguments. Replace dummyResult with your actual result;
 
         let newArray: [String] = args
-        let firstActions: [String] = ["x","/","%","*"]
+        let firstActions: [String] = ["x","/","%"]
         // let secondActions: [String] = ["+","-"]
         var result: Int = 0
         
@@ -89,8 +89,6 @@ class Calculator {
                         newNum = divide(no1: firstNum, no2: secondNum)
                     case "%":
                         newNum = module(no1: firstNum, no2: secondNum)
-                    case "*":
-                        newNum = multiply(no1:firstNum,no2: secondNum)
                     default:
                         return String(numbers[1000])
                     }
