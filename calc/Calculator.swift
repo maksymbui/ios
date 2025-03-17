@@ -8,6 +8,11 @@
 
 import Foundation
 
+// let calculator = Calculator()
+// var args = ProcessInfo.processInfo.arguments
+// args.removeFirst()
+// print(calculator.calculate(args: args))
+
 class Calculator {
     
     /// For multi-step calculation, it's helpful to persist existing result
@@ -27,13 +32,29 @@ class Calculator {
     func add(no1: Int, no2: Int) -> Int {
         return no1 + no2;
     }
+
+    func extract(no1: Int, no2: Int) -> Int{
+        return no1 - no2    
+    }
+
+    func divide(no1: Int, no2: Int) -> Int{
+        return no1 / no2;
+    }
+
+    func multiply(no1: Int, no2: Int) -> Int{
+        return no1 * no2
+    }
+    
+    func module(no1: Int, no2: Int) -> Int{
+        return no1 % no2
+    }
     
     func calculate(args: [String]) -> String {
         // Todo: Calculate Result from the arguments. Replace dummyResult with your actual result;
 
-        var newArray: [String] = args
-        let firstActions: [String] = ["x","/","%"]
-        let secondActions: [String] = ["+","-"]
+        let newArray: [String] = args
+        let firstActions: [String] = ["x","/","%","*"]
+        // let secondActions: [String] = ["+","-"]
         var result: Int = 0
         
         if args.count == 1{
@@ -56,20 +77,20 @@ class Calculator {
         if operators.count != 0{
             var currIndex: Int = 0
             while currIndex < operators.count{
-                var op = operators[currIndex]
+                let op = operators[currIndex]
                 if firstActions.contains(op){
-                    var firstNum = numbers[currIndex]
-                    var secondNum = numbers[currIndex+1]
+                    let firstNum = numbers[currIndex]
+                    let secondNum = numbers[currIndex+1]
                     var newNum: Int = 0
                     switch op{
                     case "x":
-                        newNum = firstNum * secondNum
+                        newNum = multiply(no1:firstNum,no2: secondNum)
                     case "/":
-                        newNum = firstNum / secondNum
+                        newNum = divide(no1: firstNum, no2: secondNum)
                     case "%":
-                        newNum = firstNum % secondNum
+                        newNum = module(no1: firstNum, no2: secondNum)
                     case "*":
-                        newNum = firstNum * secondNum
+                        newNum = multiply(no1:firstNum,no2: secondNum)
                     default:
                         return String(numbers[1000])
                     }
