@@ -8,10 +8,14 @@
 
 import Foundation
 
-// let calculator = Calculator()
-// var args = ProcessInfo.processInfo.arguments
-// args.removeFirst()
-// print(calculator.calculate(args: args))
+let calculator = Calculator()
+var args = ProcessInfo.processInfo.arguments
+args.removeFirst()
+print(try(calculator.calculate(args: args)))
+
+enum Errors: Error{
+    case invalidInput(String)
+}
 
 class Calculator {
     
@@ -49,12 +53,12 @@ class Calculator {
         return no1 % no2
     }
     
-    func calculate(args: [String]) -> String {
+    func calculate(args: [String]) throws -> String {
         // Todo: Calculate Result from the arguments. Replace dummyResult with your actual result;
 
         let newArray: [String] = args
         let firstActions: [String] = ["x","/","%"]
-        // let secondActions: [String] = ["+","-"]
+        let secondActions: [String] = ["+","-"]
         var result: Int = 0
         
         if args.count == 1{
@@ -62,7 +66,7 @@ class Calculator {
                 return "\(number)"
             }
         }
-        
+    
         var numbers: [Int] = []
         var operators: [String] = []
         
@@ -71,6 +75,16 @@ class Calculator {
                 numbers.append(num)
             } else {
                 operators.append(element)
+            }
+        }
+
+        if operators.count == 0{
+            throw fatalError()
+        }
+
+        for op in operators{
+            if !firstActions.contains(op) && !secondActions.contains(op){
+                throw fatalError()
             }
         }
                 
@@ -90,7 +104,7 @@ class Calculator {
                     case "%":
                         newNum = module(no1: firstNum, no2: secondNum)
                     default:
-                        return String(numbers[1000])
+                        throw Errors.invalidInput("exit with nonzero status on invalid input: calc \(args)")
                     }
                     numbers[currIndex] = newNum
                     numbers.remove(at: currIndex+1)
@@ -99,7 +113,7 @@ class Calculator {
                     currIndex += 1
                 }
             }
-            result += numbers[0]
+            result = numbers[0]
         }
 
         if operators.count != 0{
