@@ -86,10 +86,11 @@ class Calculator {
     
         //Do multiplication, division and modulo first
         //Go through all given operators and look for operators like [* / %]
-        var currIndex: Int = 0
+        var currIndex: Int = 0 //A pointer used to retrieve operator and numbers used for operation
         while currIndex < operators.count{
             let op: String = operators[currIndex]
             if firstActions.contains(op){
+                //Store two numbers used for current operation
                 let firstNum: Int = numbers[currIndex]
                 let secondNum: Int = numbers[currIndex+1]
                 var newNum: Int = 0 //Store result of operation
