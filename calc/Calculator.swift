@@ -8,11 +8,6 @@
 
 import Foundation
 
-let calculator = Calculator()
-var args = ProcessInfo.processInfo.arguments
-args.removeFirst()
-print(try(calculator.calculate(args: args)))
-
 enum Errors: Error{
     case invalidInput(String)
 }
