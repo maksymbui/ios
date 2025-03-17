@@ -43,16 +43,16 @@ class Calculator {
     }
 
     //Function for error handling
-    func errorHandling(array: [String]) throws{
+    func errorHandling(array: [String]){
         //If no operators are included in the arguments throw error
         if array.count == 0{
-            throw fatalError()
+            exit(-1)
         }
 
         //If invalid operators are included in the arguments throw error
         for op: String in array{
             if !firstActions.contains(op) && !secondActions.contains(op){
-                throw fatalError()
+                exit(-1)
             }
         }
     }
@@ -82,7 +82,7 @@ class Calculator {
         }
 
         //Review given arguments and handle errors
-        try errorHandling(array: operators)
+        errorHandling(array: operators)
     
         //Do multiplication, division and modulo first
         //Go through all given operators and look for operators like [* / %]
@@ -102,7 +102,7 @@ class Calculator {
                 case "%":
                     newNum = mod(no1: firstNum, no2: secondNum)
                 default:
-                    throw fatalError()//If operator is invalid, throw error
+                    exit(-1)//If operator is invalid exit programm
                 }
                 //Put the result of the operation inside numbers array
                 //Remove numbers and operator from two arrays, to store only remaining numbers and operators to process
@@ -128,7 +128,7 @@ class Calculator {
                 case "-":
                     result = sub(no1: result, no2: numbers[i+1])
                 default:
-                    throw fatalError()//If operator is invalid, throw error
+                    exit(-1) //If operator is invalid exit
                 }
             }
         }
