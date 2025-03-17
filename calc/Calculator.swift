@@ -44,13 +44,13 @@ class Calculator {
 
     //Function for error handling
     func errorHandling(array: [String]) throws{
-        //If no operators are included in the arguments return fatal error
+        //If no operators are included in the arguments throw error
         if array.count == 0{
             throw fatalError()
         }
 
-        //If invalid operators are included in the arguments return fatal error
-        for op in array{
+        //If invalid operators are included in the arguments throw error
+        for op: String in array{
             if !firstActions.contains(op) && !secondActions.contains(op){
                 throw fatalError()
             }
@@ -72,9 +72,9 @@ class Calculator {
         //Divide elemets of array into separate arrays of numbers and operators
         var numbers: [Int] = []
         var operators: [String] = []
-        for element in newArray{
+        for element: String in newArray{
             //Loop through each given argument (Array of String)
-            if let num = Int(element){ //Try to convert String to integer
+            if let num: Int = Int(element){ //Try to convert String to integer
                 numbers.append(num) //If successful, add element to array of numbers
             } else {
                 operators.append(element)//else, add element to array of operators
@@ -88,10 +88,10 @@ class Calculator {
         //Go through all given operators and look for operators like [* / %]
         var currIndex: Int = 0
         while currIndex < operators.count{
-            let op = operators[currIndex]
+            let op: String = operators[currIndex]
             if firstActions.contains(op){
-                let firstNum = numbers[currIndex]
-                let secondNum = numbers[currIndex+1]
+                let firstNum: Int = numbers[currIndex]
+                let secondNum: Int = numbers[currIndex+1]
                 var newNum: Int = 0 //Store result of operation
                 //Run function depending on given operator
                 switch op{
@@ -121,14 +121,14 @@ class Calculator {
         //If after finishing first actions [x,/,%] there are still operators left, they must be part of second action [+,-].
         //Evaluate remaining operations
         if operators.count != 0{
-            for i in 0..<operators.count{
+            for i: Int in 0..<operators.count{
                 switch operators[i]{
                 case "+":
                     result = add(no1: result, no2: numbers[i+1])
                 case "-":
                     result = sub(no1: result, no2: numbers[i+1])
                 default:
-                    throw fatalError()
+                    throw fatalError()//If operator is invalid, throw error
                 }
             }
         }
