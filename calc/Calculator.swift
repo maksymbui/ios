@@ -8,6 +8,16 @@
 
 import Foundation
 
+var args = ProcessInfo.processInfo.arguments
+args.removeFirst() // remove the name of the program
+
+// Initialize a Calculator object
+let calculator = Calculator();
+
+// Calculate the result
+let result = try calculator.calculate(args: args)
+print(result)
+
 class Calculator {
 
     //Initialize result where we store final evaluation of all operations
@@ -17,29 +27,20 @@ class Calculator {
     let firstActions: [String] = ["x","/","%"]
     let secondActions: [String] = ["+","-"]
 
-    //Function for addition
-    func add(no1: Int, no2: Int) -> Int {
-        return no1 + no2;
-    }
+    //Function to perform addition, substraction, multiplication, division, modulo
+    func operation(no1: Int, no2: Int, op: String) -> Int{
+        var result: Int = 0
+        
+        switch op{
+            case "+": result = no1 + no2
+            case "-": result = no1 - no2
+            case "x": result = no1 * no2
+            case "/": result = no1 / no2
+            case "%": result = no1 % no2
+            default: exit(-1)
+        }
 
-    //Function for substraction
-    func sub(no1: Int, no2: Int) -> Int{
-        return no1 - no2    
-    }
-
-    //Function for division
-    func div(no1: Int, no2: Int) -> Int{
-        return no1 / no2;
-    }
-
-    //Function for multiplication
-    func mult(no1: Int, no2: Int) -> Int{
-        return no1 * no2
-    }
-    
-    //Function for modulo
-    func mod(no1: Int, no2: Int) -> Int{
-        return no1 % no2
+        return result;
     }
 
     //Function for error handling
@@ -93,18 +94,9 @@ class Calculator {
                 //Store two numbers used for current operation
                 let firstNum: Int = numbers[currIndex]
                 let secondNum: Int = numbers[currIndex+1]
-                var newNum: Int = 0 //Store result of operation
+                var newNum: Int //Store result of operation
                 //Run function depending on given operator
-                switch op{
-                case "x":
-                    newNum = mult(no1:firstNum,no2: secondNum)
-                case "/":
-                    newNum = div(no1: firstNum, no2: secondNum)
-                case "%":
-                    newNum = mod(no1: firstNum, no2: secondNum)
-                default:
-                    exit(-1)//If operator is invalid exit programm
-                }
+                newNum = operation(no1: firstNum, no2: secondNum, op: op)
                 //Put the result of the operation inside numbers array
                 //Remove numbers and operator from two arrays, to store only remaining numbers and operators to process
                 numbers[currIndex] = newNum
@@ -123,14 +115,7 @@ class Calculator {
         //Evaluate remaining operations
         if operators.count != 0{
             for i: Int in 0..<operators.count{
-                switch operators[i]{
-                case "+":
-                    result = add(no1: result, no2: numbers[i+1])
-                case "-":
-                    result = sub(no1: result, no2: numbers[i+1])
-                default:
-                    exit(-1) //If operator is invalid exit
-                }
+                result = operation(no1: result, no2: numbers[i+1], op: operators[i])
             }
         }
         return(String(result))
