@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum calcError: Error {
+    case invalidInput
+}
+
 class Calculator {
 
     //Initialize result where we store final evaluation of all operations
@@ -18,7 +22,7 @@ class Calculator {
     let secondActions: [String] = ["+","-"]
 
     //Function to perform addition, substraction, multiplication, division, modulo
-    func operation(no1: Int, no2: Int, op: String) -> Int{
+    func operation(no1: Int, no2: Int, op: String) throws -> Int{
         var result: Int = 0
         
         switch op{
@@ -34,28 +38,29 @@ class Calculator {
                 result = no1 % no2
             default:
                 print("Invalid operator")
-                exit(-1)
+                throw calcError.invalidInput
         }
 
         return result;
     }
 
     //Function for error handling
-    func errorHandling(ops: [String], nums: [Int]){
+    func errorHandling(ops: [String], nums: [Int]) throws{
         //If no operators are included in the arguments throw error
         if ops.count == 0{
             print("No operators were provided")
-            exit(-1)
+            throw calcError.invalidInput
         }
         
+        //There must be an operator for each second number
         if ops.count != nums.count - 1 {
             print("Invalid number of numbers/operators")
-            exit(-1)
+            throw calcError.invalidInput
         }
     }
     
     //Main function to calculate result
-    func calculate(args: [String]) -> String {
+    func calculate(args: [String]) throws -> String {
         //Transfer arguments into a new variable 
         let newArray: [String] = args
 
@@ -79,7 +84,7 @@ class Calculator {
         }
 
         //Review given arguments and handle errors
-        errorHandling(ops: operators, nums: numbers)
+        try(errorHandling(ops: operators, nums: numbers))
     
         //Do multiplication, division and modulo first
         //Go through all given operators and look for operators like [* / %]
@@ -92,7 +97,7 @@ class Calculator {
                 let secondNum: Int = numbers[currIndex+1]
                 var newNum: Int //Store result of operation
                 //Run function depending on given operator
-                newNum = operation(no1: firstNum, no2: secondNum, op: op)
+                newNum = try(operation(no1: firstNum, no2: secondNum, op: op))
                 //Put the result of the operation inside numbers array
                 //Remove numbers and operator from two arrays, to store only remaining numbers and operators to process
                 numbers[currIndex] = newNum
@@ -111,7 +116,7 @@ class Calculator {
         //Evaluate remaining operations
         if operators.count != 0{
             for i: Int in 0..<operators.count{
-                result = operation(no1: result, no2: numbers[i+1], op: operators[i])
+                result = try(operation(no1: result, no2: numbers[i+1], op: operators[i]))
             }
         }
         return(String(result))
