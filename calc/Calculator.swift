@@ -8,6 +8,7 @@
 
 import Foundation
 
+//Error for invalid input like wrong operator, data type and etc.
 enum calcError: Error {
     case invalidInput
 }
