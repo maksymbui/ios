@@ -59,7 +59,7 @@ class Calculator {
         //Transfer arguments into a new variable 
         let newArray: [String] = args
 
-        //If only one argument was provided and can be converted to String, return this element        
+        //If only one argument was provided and can be converted to Int, return this element        
         if args.count == 1{
             if let number = Int(args[0]){
                 return "\(number)"
