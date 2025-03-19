@@ -8,16 +8,6 @@
 
 import Foundation
 
-var args = ProcessInfo.processInfo.arguments
-args.removeFirst() // remove the name of the program
-
-// Initialize a Calculator object
-let calculator = Calculator();
-
-// Calculate the result
-let result = try calculator.calculate(args: args)
-print(result)
-
 class Calculator {
 
     //Initialize result where we store final evaluation of all operations
@@ -32,34 +22,40 @@ class Calculator {
         var result: Int = 0
         
         switch op{
-            case "+": result = no1 + no2
-            case "-": result = no1 - no2
-            case "x": result = no1 * no2
-            case "/": result = no1 / no2
-            case "%": result = no1 % no2
-            default: exit(-1)
+            case "+":
+                result = no1 + no2
+            case "-":
+                result = no1 - no2
+            case "x":
+                result = no1 * no2
+            case "/":
+                result = no1 / no2
+            case "%":
+                result = no1 % no2
+            default:
+                print("Invalid operator")
+                exit(-1)
         }
 
         return result;
     }
 
     //Function for error handling
-    func errorHandling(array: [String]){
+    func errorHandling(ops: [String], nums: [Int]){
         //If no operators are included in the arguments throw error
-        if array.count == 0{
+        if ops.count == 0{
+            print("No operators were provided")
             exit(-1)
         }
-
-        //If invalid operators are included in the arguments throw error
-        for op: String in array{
-            if !firstActions.contains(op) && !secondActions.contains(op){
-                exit(-1)
-            }
+        
+        if ops.count != nums.count - 1 {
+            print("Invalid number of numbers/operators")
+            exit(-1)
         }
     }
     
     //Main function to calculate result
-    func calculate(args: [String]) throws -> String {
+    func calculate(args: [String]) -> String {
         //Transfer arguments into a new variable 
         let newArray: [String] = args
 
@@ -83,7 +79,7 @@ class Calculator {
         }
 
         //Review given arguments and handle errors
-        errorHandling(array: operators)
+        errorHandling(ops: operators, nums: numbers)
     
         //Do multiplication, division and modulo first
         //Go through all given operators and look for operators like [* / %]
@@ -108,10 +104,10 @@ class Calculator {
             }
         }
 
-        //Assign result to fist number of the array with remaining numbers
+        //Assign result to fist number of the array of remaining numbers
         result = numbers[0]
         
-        //If after finishing first actions [x,/,%] there are still operators left, they must be part of second action [+,-].
+        //If after finishing performing first actions [x,/,%] there are still operators left, they must be part of second action [+,-].
         //Evaluate remaining operations
         if operators.count != 0{
             for i: Int in 0..<operators.count{
